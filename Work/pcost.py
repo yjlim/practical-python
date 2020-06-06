@@ -3,13 +3,17 @@
 # Exercise 1.27
 import os
 
-total = 0
+def portfolio_cost(filename: str):
+    with open(f'{filename}', 'rt') as f:
+        total = 0
+        headers = next(f).split(',')
+        for line in f:
+            fields = line.split(',')
+            try:
+                shares = int(fields[1])
+                cost = float(fields[2][:-1])
+            except ValueError:
+                print("Couldn't parse", line)
+            total = total + shares*cost
 
-f = open('Data/portfolio.csv', 'rt')
-headers = next(f).split(',')
-for line in f:
-    row = line.split(',')
-    total = total + int(row[1])*float(row[2][:-1])
-
-print(f'Total cost {total}')
-f.close()
+        print(f'Total cost {total}')
